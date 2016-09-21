@@ -9,7 +9,7 @@
 @endsection
 
 @section('content')
-    @include('includes.info_box')
+    @include('includes.info-box')
     <form action="" method="post" id="contact-form">
         <div class="input-group">
             <label for="name">Your name</label>

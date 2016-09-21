@@ -10,10 +10,10 @@
 | and give it the controller to call when that URI is requested.
 |
 */
+use Illuminate\Http\Request;
 
 
-
-Route::group(['middleware' => ['web']], function(){
+/*Route::group(['middleware' => 'web'], function(){*/
 
     Route::get('/', [
         'uses' => 'PostController@getBlogIndex',
@@ -49,7 +49,18 @@ Route::group(['middleware' => ['web']], function(){
             'uses' => 'AdminController@getIndex',
             'as' => 'admin.index'
         ]);
+
+        Route::get('/blog/posts/create', [
+            'uses' => 'PostController@getCreatePost',
+            'as' => 'admin.blog.create_post'
+        ]);
+
+        Route::post('/blog/post/create', [
+            'uses' => 'PostController@postCreatePost',
+            'as' => 'admin.blog.post.create'
+        ]);
+
     });
 
 
-});
+/*});*/
