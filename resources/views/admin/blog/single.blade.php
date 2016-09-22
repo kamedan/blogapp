@@ -12,8 +12,8 @@
     <div class="container">
         @include('includes.info-box')
         <section id="post-admin">
-            <a href="{{route('admin.blog.create_post')}}" class="btn">Edit Post</a>
-            <a href="{{route('admin.blog.create_post')}}" class="btn">Delete Post</a>
+            <a href="{{route('admin.blog.post.edit', ['post_id' => $post->id])}}" class="btn">Edit Post</a>
+            <a href="{{route('admin.blog.post.delete', ['post_id' => $post->id])}}" class="btn">Delete Post</a>
         </section>
         <section class="post">
 

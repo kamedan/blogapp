@@ -79,4 +79,46 @@ class PostController extends Controller
         return $text;
     }
 
+    public function getUpdatePost($post_id)
+    {
+        $post = Post::find($post_id);
+        if(!$post){
+            return redirect()->route('blog.index')->with(['fail' => 'Post not found']);
+        }
+        //find categories
+        return view('admin.blog.edit_post', ['post' => $post]);
+
+    }
+
+    public function postUpdatePost(Request $request)
+    {
+        $this->validate($request, [
+            'title' => 'required|max:120',
+            'author' => 'required|max:80',
+            'body' => 'required',
+        ]);
+
+        $post = Post::find($request['post_id']);
+        $post->title = $request['title'];
+        $post->author = $request['author'];
+        $post->body = $request['body'];
+        $post->update();
+
+        //attach categories
+
+        return redirect()->route('admin.index')->with(['success' => 'Post Successfully edited']);
+    }
+
+    public function getDeletePost($post_id)
+    {
+        $post = Post::find($post_id);
+        if(!$post){
+            return redirect()->route('blog.index')->with(['fail' => 'Post not found']);
+        }
+        $post->delete();
+        return redirect()->route('admin.index')->with(['success' => 'Post deleted']);
+
+
+    }
+
 }
