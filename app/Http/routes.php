@@ -13,7 +13,7 @@
 use Illuminate\Http\Request;
 
 
-/*Route::group(['middleware' => 'web'], function(){*/
+Route::group(['middleware' => ['web']], function(){
 
     Route::get('/', [
         'uses' => 'PostController@getBlogIndex',
@@ -25,12 +25,11 @@ use Illuminate\Http\Request;
         'as' => 'blog.index'
     ]);
 
-    Route::get('/blog/{post_id}', [
-        'uses' => 'PostController@getSingleIndex',
+    Route::get('/blog/post/{post_id}&{end}', [
+        'uses' => 'PostController@getSinglePost',
         'as' => 'blog.single'
     ]);
 
-    /* other routes*/
 
     Route::get('/about', function(){
         return view('frontend.other.about');
@@ -42,13 +41,20 @@ use Illuminate\Http\Request;
     ]);
 
 
-    Route::group([
-         'prefix' => '/admin'
-        ], function(){
+    Route::group(['prefix' => '/admin'], function(){
         Route::get('/', [
             'uses' => 'AdminController@getIndex',
             'as' => 'admin.index'
         ]);
+        Route::get('/blog/posts', [
+            'uses' => 'PostController@getPostIndex',
+            'as' => 'admin.blog.index'
+        ]);
+        Route::get('/blog/post/{post_id}&{end}', [
+            'uses' => 'PostController@getSinglePost',
+            'as' => 'admin.blog.post'
+        ]);
+
 
         Route::get('/blog/posts/create', [
             'uses' => 'PostController@getCreatePost',
@@ -63,4 +69,4 @@ use Illuminate\Http\Request;
     });
 
 
-/*});*/
+});

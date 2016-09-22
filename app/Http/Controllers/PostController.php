@@ -17,12 +17,21 @@ class PostController extends Controller
 {
     public function getBlogIndex()
     {
-        return view('frontend.blog.index');
+        $posts = Post::Paginate(5);
+        foreach($posts as $post)
+        {
+            $post->body = $this->shortenText($post->body, 20);
+        }
+        return view('frontend.blog.index' , ['posts' => $posts]);
     }
 
-    public function getSingleIndex($post_id, $end = 'frontend')
+    public function getSinglePost($post_id, $end = 'frontend')
     {
-        return view($end.'.blog.single');
+        $post = Post::find($post_id);
+        if(!$post){
+            return redirect()->route('blog.index')->with(['fail' => 'Post not found']);
+        }
+        return view($end.'.blog.single', ['post' => $post]);
     }
 
     public function getCreatePost()
@@ -47,6 +56,27 @@ class PostController extends Controller
         //attach categories
 
         return redirect()->route('admin.index')->with(['success' => 'Post Successfully created']);
+    }
+
+    public function getPostIndex()
+    {
+        $posts = Post::Paginate(5);
+        foreach($posts as $post)
+        {
+            $post->body = $this->shortenText($post->body, 20);
+        }
+        return view('admin.blog.index' , ['posts' => $posts]);
+    }
+
+    public function shortenText($text, $words_count)
+    {
+        if(str_word_count($text, 0)> $words_count)
+        {
+            $words = str_word_count($text, 2);
+            $pos = array_keys($words);
+            $text = substr($text, 0 , $pos[$words_count]).'...';
+        }
+        return $text;
     }
 
 }

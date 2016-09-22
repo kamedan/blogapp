@@ -6,9 +6,9 @@
 
 @section('content')
     <article>
-        <h3>Post Title</h3>
-        <span class="subtitle">Post Author | Date</span>
-        <p>Post Body</p>
+        <h1>{{$post->title}}</h1>
+        <span class="info">{{$post->author }} | {{$post->created_at}}</span>
+        <p>{{$post->body }}</p>
 
     </article>
 

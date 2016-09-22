@@ -13,32 +13,35 @@
                <nav>
                    <ul>
                        <li><a href="{{route('admin.blog.create_post')}}" class="btn">New Post</a></li>
-                       <li><a href="" class="btn">Show all Posts</a></li>
+                       <li><a href="{{route('admin.blog.index')}}" class="btn">Show all Posts</a></li>
                    </ul>
                </nav>
            </header>
            <section>
                <ul>
-                   <!-- if no posts-->
+                   @if(count($posts) == 0)
                    <li>No posts</li>
-                   <!-- if posts-->
+                   @else
+                       @foreach($posts as $post)
                    <li>
                        <article>
                        <div class="post-info">
-                           <h3>Post Title</h3>
-                           <span class="info">Post Author | Date</span>
-                           <p>Post Body</p>
+                           <h3>{{$post->title}}</h3>
+                           <span class="info">{{$post->author }} | {{$post->created_at}}</span>
+                           <p>{{$post->body }}</p>
 
                        </div>
                        <div class="edit">
                            <ul>
-                               <li><a href="">View Post</a></li>
+                               <li><a href="{{route('admin.blog.post', ['post_id' => $post->id, 'end' => 'admin'])}}">View Post</a></li>
                                <li><a href="">Edit</a></li>
                                <li><a href="" class="danger">Delete</a></li>
                            </ul>
                        </div>
                        </article>
                    </li>
+                       @endforeach
+                    @endif
                </ul>
            </section>
        </div>
@@ -95,3 +98,5 @@
     <script type="text/javascript" src="{{URL::to('src/js/modal.js')}}"></script>
     <script type="text/javascript" src="{{URL::to('src/js/contact-messages.js')}}"></script>
 @endsection
+
+
